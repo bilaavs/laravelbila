@@ -13,3 +13,7 @@ Route::get('/master', function () {
 Route::get('/films', function () {
     return view('template/separate/films');
 })->name('films');
+
+Route::get('/genres', function () {
+    return view('template/separate/genres');
+})->name('genres');

@@ -72,7 +72,8 @@
         <a href="#" class="nav-link">Contact</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Genre</a>
+        <a href="{{route('Genres')}}"class="nav-link">Genres</>
+
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="{{route('films')}}" class="nav-link">Film</a>
