@@ -77,6 +77,12 @@
       <li class="nav-item d-none d-sm-inline-block">
         <a href="{{route('films')}}" class="nav-link">Film</a>
       </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{{route('perans')}}" class="nav-link">peran</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{{route('casts')}}" class="nav-link">cast</a>
+      </li>
     </ul>
 
     <!-- Right navbar links -->

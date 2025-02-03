@@ -77,6 +77,12 @@
       <li class="nav-item d-none d-sm-inline-block">
         <a href="{{route('films')}}" class="nav-link">Film</a>
       </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{{route('perans')}}" class="nav-link">peran</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{{route('casts')}}" class="nav-link">cast</a>
+      </li>
     </ul>
 
     <!-- Right navbar links -->
@@ -261,52 +267,85 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form>
-                <div class="card-body">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">id</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="id films">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Judul</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Judul film ">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Ringkasan</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Masukan ringkasan ">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Tahun</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Tahun rilis ">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Poster</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Masukan poster ">
-                  </div>
+              <form action="{{ route('films.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div class="card-body">
+        <div class="form-group">
+            <label for="judul">Judul</label>
+            <input type="text" class="form-control" name="judul" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="ringkasan">Ringkasan</label>
+            <textarea class="form-control" name="ringkasan"></textarea>
+        </div>
 
-                  <div class="form-group">
-                    <label for="exampleInputFile">Thumbnail</label>
-                    <div class="input-group">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile">
-                        <label class="custom-file-label" for="exampleInputFile">Masukan thumbnail film</label>
-                      </div>
-                      <div class="input-group-append">
-                        <span class="input-group-text">Upload</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Saya menyetujui persyaratan dan ketentuan yang berlaku</label>
-                  </div>
-                </div>
-                <!-- /.card-body -->
+        <div class="form-group">
+            <label for="tahun">Tahun</label>
+            <input type="number" class="form-control" name="tahun" required>
+        </div>
 
-                <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-              </form>
+        <div class="form-group">
+            <label for="poster">Poster</label>
+            <input type="file" class="form-control" name="poster">
+        </div>
+
+        <div class="form-group">
+            <label for="genre_id">Genre</label>
+            <select class="form-control" name="genre_id" required>
+                <option value="">Pilih Genre</option>
+                @foreach($genres as $genre)
+                    <option value="{{ $genre->id }}">{{ $genre->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Judul</th>
+            <th>Ringkasan</th>
+            <th>Tahun</th>
+            <th>Poster</th>
+            <th>Genre</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($films as $film)
+        <tr>
+            <td>{{ $film->id }}</td>
+            <td>{{ $film->judul }}</td>
+            <td>{{ $film->ringkasan }}</td>
+            <td>{{ $film->tahun }}</td>
+            <td>
+                @if($film->poster)
+                    <img src="{{ asset('uploads/' . $film->poster) }}" width="50">
+                @else
+                    -
+                @endif
+            </td>
+            <td>{{ $film->genre ? $film->genre->name : 'Tidak ada' }}</td>
+            <td>
+                <form action="{{ route('films.destroy', $film->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
+
             </div>
 
 
